@@ -1,0 +1,24 @@
+{
+  "name": "random-number-generator",
+  "version": "1.0.0",
+  "description": "A simple web application that generates phone numbers for a telephone company",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amarachukwu-agbo/random-number-generator.git"
+  },
+  "keywords": [
+    "React",
+    "Node",
+    "Express"
+  ],
+  "author": "Agbo Amarachukwu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amarachukwu-agbo/random-number-generator/issues"
+  },
+  "homepage": "https://github.com/amarachukwu-agbo/random-number-generator#readme"
+}
