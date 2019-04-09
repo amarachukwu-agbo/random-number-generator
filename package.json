@@ -9,7 +9,8 @@
     "server:build": "babel server --out-dir dist",
     "serve": "node dist/index.js",
     "client:start-dev": "parcel ./client/index.html",
-    "client:build": "parcel build ./lib/index.html"
+    "client:build": "parcel build ./lib/index.html",
+    "lint": "eslint --ext .jsx,.js server/ client/"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,12 @@
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jsx-a11y": "6.1.1",
+    "eslint-plugin-react": "7.11.0",
     "jest": "^24.7.1",
     "nodemon": "^1.18.11",
     "parcel-bundler": "^1.12.3"
@@ -39,6 +46,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "node-sass": "^4.11.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   }
