@@ -1,5 +1,8 @@
 version: "2"
 checks:
+  method-lines:
+    config:
+      threshold: 28
 plugins:
   rubocop:
     enabled: true

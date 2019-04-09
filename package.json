@@ -4,7 +4,7 @@
   "description": "A simple web application that generates phone numbers for a telephone company",
   "main": "server/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "server:start-dev": "nodemon --exec babel-node server/index.js",
     "server:build": "babel server --out-dir dist",
     "serve": "node dist/index.js",
@@ -34,6 +34,7 @@
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-react": "^7.0.0",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.7.1",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "2.14.0",
