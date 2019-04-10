@@ -3,12 +3,11 @@ module.exports = {
 
   // Indicates whether the coverage information should be collected while executing the test
   collectCoverage: true,
-  collectCoverageFrom: ['src/**/*.js', 'client/**/*.js'],
+  collectCoverageFrom: ['server/**/*.js', 'client/**/*.js'],
   coverageDirectory: 'coverage',
   coveragePathIgnorePatterns: [
     '/node_modules/',
   ],
-  coverageReporters: ['lcov'],
 
   // A set of global variables that need to be available in all test environments
   // globals: {},
@@ -19,6 +18,10 @@ module.exports = {
   roots: [
     '<rootDir>',
   ],
+
+  transform: {
+    '^.+\\.jsx?$': 'babel-jest',
+  },
 
   // The paths to modules that run some code to configure or set up the testing environment
   // before each test
