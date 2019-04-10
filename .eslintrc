@@ -2,6 +2,9 @@
   "parser": "babel-eslint",
   "extends": "airbnb",
   "plugins": ["react"],
+  "rules": {
+    "no-plusplus": 0
+  },
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
@@ -11,6 +14,7 @@
   },
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "jest": true
   }
 }
