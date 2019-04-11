@@ -12,6 +12,4 @@ exclude_patterns:
 - "config/"
 - "dist/"
 - "**/node_modules/"
-- "**/spec/"
-- "**/test/"
-- "**/tests/"
+- "**/__tests__/"
