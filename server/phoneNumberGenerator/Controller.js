@@ -1,25 +1,20 @@
 import { promises as fs } from 'fs';
-import path from 'path';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import Utils from '../Utils';
 
 class Controller {
   static async generatePhoneNumbers(req, res) {
     try {
       // Get existing phone numbers from file storage
-      const fileStoragePath = process.env.FILE_STORAGE_PATH;
-      const pathName = path.resolve(__dirname, fileStoragePath);
-      const savedNumbers = await fs.readFile(pathName, 'utf-8');
-      const savedNumbersToJSON = JSON.parse(savedNumbers);
+      const savedNumbers = await Utils.getSavedPhoneNumbers();
 
       const generatedNumbers = Controller.generateTenDigitNumbers(1000);
 
       // Add generated numbers to top of file
-      savedNumbersToJSON.unshift(...generatedNumbers);
+      savedNumbers.unshift(...generatedNumbers);
 
       // Save unique phone numbers to file storage
-      await fs.writeFile(pathName, JSON.stringify([...new Set(savedNumbersToJSON)]));
+      const pathName = Utils.getFileStoragePath();
+      await fs.writeFile(pathName, JSON.stringify([...new Set(savedNumbers)]));
 
       return res.status(201)
         .json({
@@ -38,6 +33,33 @@ class Controller {
     const zeroPrefixNumber = `0${newNumber}`;
     randomNumbers.push(zeroPrefixNumber);
     return Controller.generateTenDigitNumbers(i - 1, n + 1, randomNumbers);
+  }
+
+  static async getPhoneNumbers(req, res) {
+    try {
+      let savedNumbers = await Utils.getSavedPhoneNumbers();
+      const { page, limit, sort } = req.query;
+
+      if (sort === 'ASC') { // Sort phone numbers ascending order
+        savedNumbers = savedNumbers
+          .sort((firstNum, secondNum) => firstNum - secondNum);
+      }
+      if (sort === 'DESC') { // Sort phone numbers descending order
+        savedNumbers = savedNumbers
+          .sort((firstNum, secondNum) => secondNum - firstNum);
+      }
+
+      const { paginatedRecord, meta } = Utils
+        .paginateRecords(savedNumbers, page, limit);
+      return res.status(200)
+        .json({
+          message: 'Phone numbers successfully retrieved',
+          phoneNumbers: paginatedRecord,
+          meta,
+        });
+    } catch (error) { // istanbul ignore next
+      return res.status(500).json({ error });
+    }
   }
 }
 
