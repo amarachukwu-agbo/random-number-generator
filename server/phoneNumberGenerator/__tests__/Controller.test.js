@@ -4,8 +4,10 @@ import path from 'path';
 import app from '../..';
 
 process.env.FILE_STORAGE_PATH = './db/numbers.test.json';
+
 describe('Phone Number Routes', () => {
   const testFilePathName = path.resolve(__dirname, '../../db/numbers.test.json');
+
   describe('POST api/v1/numbers', () => {
     beforeEach(async (done) => {
       await fs.writeFile(testFilePathName, JSON.stringify([]));
@@ -74,6 +76,7 @@ describe('Phone Number Routes', () => {
         pagesCount: 1,
         totalCount: 10,
       });
+
     beforeAll(async (done) => {
       await fs.writeFile(testFilePathName, JSON.stringify(testPhoneNumbers));
       done();
@@ -155,6 +158,40 @@ describe('Phone Number Routes', () => {
             limit: 2,
             pagesCount: 5,
           });
+        done();
+      });
+  });
+
+  describe('GET api/v1/number?minMax', () => {
+    it('gets the min phone number when minMax equals min', async (done) => {
+      const response = await request(app)
+        .get('/api/v1/number?minMax=min');
+      expect(response.status).toEqual(200);
+      expect(response.body.message)
+        .toEqual('Min phone number successfully retrieved');
+      expect(response.body.phoneNumber)
+        .toEqual('0192719520');
+      done();
+    });
+
+    it('sorts phone numbers in ascending order', async (done) => {
+      const response = await request(app)
+        .get('/api/v1/number?minMax=Max');
+      expect(response.status).toEqual(200);
+      expect(response.body.message)
+        .toEqual('Max phone number successfully retrieved');
+      expect(response.body.phoneNumber)
+        .toEqual('0996698416');
+      done();
+    });
+
+    it('throws 400 error when minMAx value is neither min or max',
+      async (done) => {
+        const response = await request(app)
+          .get('/api/v1/number?minMax=maxiyt');
+        expect(response.status).toEqual(400);
+        expect(response.body.error)
+          .toEqual('minMax must have value "min" or "max"');
         done();
       });
   });
