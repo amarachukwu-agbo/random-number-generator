@@ -41,12 +41,10 @@ class Controller {
       const { page, limit, sort } = req.query;
 
       if (sort === 'ASC') { // Sort phone numbers ascending order
-        savedNumbers = savedNumbers
-          .sort((firstNum, secondNum) => firstNum - secondNum);
+        savedNumbers = Utils.sortRecord(savedNumbers);
       }
       if (sort === 'DESC') { // Sort phone numbers descending order
-        savedNumbers = savedNumbers
-          .sort((firstNum, secondNum) => secondNum - firstNum);
+        savedNumbers = Utils.sortRecord(savedNumbers, false);
       }
 
       const { paginatedRecord, meta } = Utils
@@ -58,6 +56,30 @@ class Controller {
           meta,
         });
     } catch (error) { // istanbul ignore next
+      return res.status(500).json({ error });
+    }
+  }
+
+  static async getMinOrMaxNumber(req, res) {
+    try {
+      const { minMax } = req.query;
+      const minMaxToLower = minMax.toLowerCase();
+      if (minMaxToLower !== 'min' && minMaxToLower !== 'max') {
+        return res.status(400).json({
+          error: 'minMax must have value "min" or "max"',
+        });
+      }
+      const savedPhoneNumbers = await Utils.getSavedPhoneNumbers();
+      const sortedPhoneNumbers = Utils.sortRecord(savedPhoneNumbers);
+      let minOrMaxPhoneNumber = sortedPhoneNumbers[0];
+      if (minMaxToLower === 'max') {
+        minOrMaxPhoneNumber = sortedPhoneNumbers[sortedPhoneNumbers.length - 1];
+      }
+      return res.status(200).json({
+        message: `${minMax.substr(0, 1).toUpperCase()}${minMaxToLower.substr(1)} phone number successfully retrieved`,
+        phoneNumber: minOrMaxPhoneNumber,
+      });
+    } catch (error) { // istanbul  ignore next
       return res.status(500).json({ error });
     }
   }

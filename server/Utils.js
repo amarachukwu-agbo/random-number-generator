@@ -34,6 +34,13 @@ class Utils {
     const pathName = path.resolve(__dirname, fileStoragePath);
     return pathName;
   }
+
+  static sortRecord(record, ascending = true) {
+    if (ascending) {
+      return record.sort((firstNum, secondNum) => firstNum - secondNum);
+    }
+    return record.sort((firstNum, secondNum) => secondNum - firstNum);
+  }
 }
 
 export default Utils;
