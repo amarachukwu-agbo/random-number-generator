@@ -56,6 +56,17 @@ describe('Phone Number Routes', () => {
     });
   });
 
+  describe('DELETE api/v1/numbers', () => {
+    it('deletes all phone numbers and returns correct message', async (done) => {
+      const response = await request(app)
+        .delete('/api/v1/numbers');
+      expect(response.status).toEqual(200);
+      expect(response.body.message)
+        .toEqual('Phone Numbers deleted successfully');
+      done();
+    });
+  });
+
   describe('GET api/v1/numbers', () => {
     const testPhoneNumbers = [
       '0577639061',
@@ -162,6 +173,7 @@ describe('Phone Number Routes', () => {
       });
   });
 
+
   describe('GET api/v1/number?minMax', () => {
     it('gets the min phone number when minMax equals min', async (done) => {
       const response = await request(app)
@@ -185,7 +197,7 @@ describe('Phone Number Routes', () => {
       done();
     });
 
-    it('throws 400 error when minMAx value is neither min or max',
+    it('returns 400 error when minMAx value is neither min or max',
       async (done) => {
         const response = await request(app)
           .get('/api/v1/number?minMax=maxiyt');
@@ -194,5 +206,15 @@ describe('Phone Number Routes', () => {
           .toEqual('minMax must have value "min" or "max"');
         done();
       });
+
+    it('returns 404 status if no numbers have been generated', async (done) => {
+      await fs.writeFile(testFilePathName, JSON.stringify([]));
+      const response = await request(app)
+        .get('/api/v1/number?minMax=min');
+      expect(response.status).toEqual(404);
+      expect(response.body.error)
+        .toEqual('No numbers have been generated');
+      done();
+    });
   });
 });

@@ -70,6 +70,11 @@ class Controller {
         });
       }
       const savedPhoneNumbers = await Utils.getSavedPhoneNumbers();
+      if (!savedPhoneNumbers.length) {
+        return res.status(404).json({
+          error: 'No numbers have been generated',
+        });
+      }
       const sortedPhoneNumbers = Utils.sortRecord(savedPhoneNumbers);
       let minOrMaxPhoneNumber = sortedPhoneNumbers[0];
       if (minMaxToLower === 'max') {
@@ -78,6 +83,18 @@ class Controller {
       return res.status(200).json({
         message: `${minMax.substr(0, 1).toUpperCase()}${minMaxToLower.substr(1)} phone number successfully retrieved`,
         phoneNumber: minOrMaxPhoneNumber,
+      });
+    } catch (error) { // istanbul  ignore next
+      return res.status(500).json({ error });
+    }
+  }
+
+  static async deletePhoneNumbers(req, res) {
+    try {
+      const pathName = Utils.getFileStoragePath();
+      await fs.writeFile(pathName, JSON.stringify([]));
+      return res.status(200).json({
+        message: 'Phone Numbers deleted successfully',
       });
     } catch (error) { // istanbul  ignore next
       return res.status(500).json({ error });
