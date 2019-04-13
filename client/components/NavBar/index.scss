@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Serif:400,400i');
+
+.navbar {
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    background-color: #fff;
+    padding: 0.7% 4%;
+    opacity:0.95;
+    border-bottom: 2.5px solid #f5a622;
+    .numbers__button {
+      border: 1px solid #aa076b;
+      height: 40px;
+      padding: 3px;
+      min-width: 12%;
+      border-radius: 2px;
+      font-size: 1em;
+      font-weight: 300;
+      font-family: 'Gentium Basic', serif;
+      transition: border 0.5s ease-out;
+      @media screen and (max-width: 800px) {
+        padding: 5px;
+      }
+      &:hover {
+        background-color: #aa076b;
+        color: #fff;
+        cursor: pointer;
+      }
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      &-text {
+        display: inline-block;
+        margin-left: 7px;
+      }
+    }
+  }
+  &__header-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    opacity: 0.9;
+    color: #3b444b;
+    font-size: 1.5rem;
+    &--big {
+      font-size: 1.5rem;
+      display: inline-block;
+      transform: scale(1, 2);
+      &:nth-child(1) {
+        transform: scale(1, 2.5);
+      }
+    }
+    @media screen and (max-width: 540px) {
+      font-size: 1.2rem;
+    }
+  }
+}

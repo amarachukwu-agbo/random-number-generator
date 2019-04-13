@@ -1,0 +1,92 @@
+$primary-color: #3359DB;
+$border-color: #D4D4D4;
+
+@mixin itemsFontStyle($fontColor:$primary-color) {
+  color: $fontColor;
+  font-family: 'Gentium Basic', serif;
+  font-size: 1em;
+  font-weight: 500;
+  text-align: center;
+}
+.dropdown {
+  &__container {
+    width: 60%;
+    max-height: 40px;
+    box-sizing: border-box;
+    &.open > div.dropdown__input {
+      border: 1px solid #f5a622;
+    }
+    &.open > div.dropdown__list {
+      display: flex;
+    }
+  }
+
+  &__input {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    border: 1px solid #f5a622;
+    min-height: 40px;
+    border-radius: 0 2px 2px 0;
+    background-color: #FFFFFF;
+
+    &:hover,
+    &:active {
+      border: 1px solid #f5a622;
+    }
+
+    &__value {
+      @include itemsFontStyle;
+      margin-right: 7px;
+    }
+  }
+
+  &__list {
+    box-sizing: border-box;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    width:98.3%;
+    position: relative;
+    border: 1px solid $border-color;
+    margin-top: 4px;
+    border-radius: 0 0 2px 2px;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+
+    &__items {
+      box-sizing: border-box;
+      width: 100%;
+      max-height: 130px;
+      overflow-y: scroll;
+      list-style-type: none;
+      margin: 0;
+      z-index:2;
+      padding: 0;
+      cursor:pointer;
+      text-align: center;
+      background:white;
+    }
+    &__item {
+      @include itemsFontStyle(#4F4F4F);
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 32px;
+      &.selected {
+        color: $primary-color;
+      }
+      &:hover {
+        color: #3359DB;
+        background: #F8F8F8;
+      }
+    }
+  }
+}

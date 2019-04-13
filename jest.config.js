@@ -3,10 +3,11 @@ module.exports = {
 
   // Indicates whether the coverage information should be collected while executing the test
   collectCoverage: true,
-  collectCoverageFrom: ['server/**/*.js', 'client/**/*.js'],
+  collectCoverageFrom: ['server/**/*.js', 'client/**/*.{js,jsx}'],
   coverageDirectory: 'coverage',
   coveragePathIgnorePatterns: [
     '/node_modules/',
+    '<rootDir>/client/index.js',
   ],
 
   // A set of global variables that need to be available in all test environments
@@ -23,6 +24,10 @@ module.exports = {
     '^.+\\.jsx?$': 'babel-jest',
   },
 
+  moduleNameMapper: {
+    '\\.(css|less|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
+    '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js',
+  },
   // The paths to modules that run some code to configure or set up the testing environment
   // before each test
   // setupFiles: [],
@@ -31,5 +36,6 @@ module.exports = {
   testEnvironment: 'node',
   testPathIgnorePatterns: [
     '/node_modules/',
+    '<rootDir>/client/index.js',
   ],
 };

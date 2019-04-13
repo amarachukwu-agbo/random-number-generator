@@ -1,0 +1,39 @@
+body {
+  background: #AA076B;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #61045F, #AA076B);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(45deg, #AA076B, #61045F); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  height: 100vh;
+  margin: 0;
+  color: #4F4F4F;
+  font-family: 'Gentium Basic', serif;
+}
+
+.generator {
+  &__container {
+  padding: 0.7% 4%;
+  }
+  &__button-group {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    justify-content: space-between;
+    align-items: center;
+    margin: 35px 0 30px;
+  }
+};
+
+.loader {
+  position: fixed;
+  top: 30%;
+  left: calc(50% - 62.5px)
+}
+
+.toast-top-center {
+  top: 12px;
+  margin: 0 auto;
+}
+
+.error {
+  color: rgb(255,255,255);
+  opacity: 0.6;
+  font-size: 1.2em;
+}
