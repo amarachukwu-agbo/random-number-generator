@@ -1,0 +1,22 @@
+.numbers {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(10, auto);
+    grid-gap: 15px 3px;
+    justify-items: center;
+    align-content: start;
+    justify-content: stretch;
+    opacity: 0.85;
+    padding: 20px 15px;
+    border: 1px solid #f5a622;
+    border-radius: 5px;
+    &-item {
+      &--text {
+        background-color: white;
+        opacity: 1;
+        border-radius: 3px;
+        padding: 5px 8px;
+      }
+    }
+  }
+}

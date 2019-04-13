@@ -1,0 +1,33 @@
+.pagination {
+  min-width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 30px;
+  &__button {
+    width: 80px;
+    border: 1px solid #f5a622;
+    background-color: transparent;
+    padding: 7px;
+    font-size: 14px;
+    color: #fff;
+    margin-left: 10px;
+    opacity: 0.8;
+    transition: background-color 0.5s ease-out;
+    &--text {
+      color: #fff;
+      margin: 3px;
+    }
+    &:hover {
+      cursor: pointer;
+      opacity: 1;
+    }
+  }
+  .current-page {
+    border: 1px solid #f5a622;
+    padding: 7px 10px 7px;
+  }
+  .page__text {
+    margin-left: 13px;
+  }
+}

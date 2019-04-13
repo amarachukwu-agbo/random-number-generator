@@ -6,7 +6,7 @@ dotenv.config();
 class Utils {
   static paginateRecords(records, pageQuery, limitQuery) {
     const page = pageQuery > 0 ? +pageQuery : 1;
-    const limit = limitQuery > 0 ? +limitQuery : 10;
+    const limit = limitQuery > 0 ? +limitQuery : 150;
     const recordCount = records.length;
     const pagesCount = Math.ceil(recordCount / limit);
     const offset = (page - 1) * limit;

@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Serif:400,400i');
+
+.navbar {
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    background-color: #fff;
+    padding: 0.7% 4%;
+    border-bottom: 2px solid #f5a622;
+  }
+  &__header--text {
+    font-family: 'IBM Plex Serif', serif;
+    font-style: italic;
+  }
+    .numbers__button {
+      border: 1px solid #aa076b;
+      height: 40px;
+      padding: 3px;
+      min-width: 12%;
+      border-radius: 2px;
+      font-size: 1em;
+      font-weight: 300;
+      transition: border 0.5s ease-out;
+      &:hover {
+        background-color: #aa076b;
+        color: #fff;
+        cursor: pointer;
+      }
+      &--text {
+        display: inline-block;
+        margin-left: 7px;
+      }
+    }
+}
