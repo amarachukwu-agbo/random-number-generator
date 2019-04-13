@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Number Generator it renders correctly 1`] = `
+<div
+  class="navbar__container"
+>
+  <h2
+    class="navbar__header--text"
+  >
+    Phone Number Generator
+  </h2>
+  <button
+    class="numbers__button"
+    type="button"
+  >
+    <span
+      class="numbers__button--text"
+    >
+      Generate
+    </span>
+  </button>
+</div>
+`;

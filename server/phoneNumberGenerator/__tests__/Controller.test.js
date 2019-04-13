@@ -83,7 +83,7 @@ describe('Phone Number Routes', () => {
     const assertMetaValues = response => expect(response.body.meta)
       .toMatchObject({
         currentPage: 1,
-        limit: 10,
+        limit: 150,
         pagesCount: 1,
         totalCount: 10,
       });
@@ -174,43 +174,22 @@ describe('Phone Number Routes', () => {
   });
 
 
-  describe('GET api/v1/number?minMax', () => {
-    it('gets the min phone number when minMax equals min', async (done) => {
+  describe('GET api/v1/numbers/minMax', () => {
+    it('gets the min and max phone number', async (done) => {
       const response = await request(app)
-        .get('/api/v1/number?minMax=min');
+        .get('/api/v1/numbers/minMax');
       expect(response.status).toEqual(200);
       expect(response.body.message)
-        .toEqual('Min phone number successfully retrieved');
-      expect(response.body.phoneNumber)
-        .toEqual('0192719520');
+        .toEqual('Min and max phone numbers successfully retrieved');
+      expect(response.body.minMaxPhoneNumbers)
+        .toEqual({ minNumber: '0192719520', maxNumber: '0996698416' });
       done();
     });
-
-    it('sorts phone numbers in ascending order', async (done) => {
-      const response = await request(app)
-        .get('/api/v1/number?minMax=Max');
-      expect(response.status).toEqual(200);
-      expect(response.body.message)
-        .toEqual('Max phone number successfully retrieved');
-      expect(response.body.phoneNumber)
-        .toEqual('0996698416');
-      done();
-    });
-
-    it('returns 400 error when minMAx value is neither min or max',
-      async (done) => {
-        const response = await request(app)
-          .get('/api/v1/number?minMax=maxiyt');
-        expect(response.status).toEqual(400);
-        expect(response.body.error)
-          .toEqual('minMax must have value "min" or "max"');
-        done();
-      });
 
     it('returns 404 status if no numbers have been generated', async (done) => {
       await fs.writeFile(testFilePathName, JSON.stringify([]));
       const response = await request(app)
-        .get('/api/v1/number?minMax=min');
+        .get('/api/v1/numbers/minMax');
       expect(response.status).toEqual(404);
       expect(response.body.error)
         .toEqual('No numbers have been generated');
