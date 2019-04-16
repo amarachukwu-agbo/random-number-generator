@@ -8,12 +8,8 @@
     height: 60px;
     background-color: #fff;
     padding: 0.7% 4%;
-    border-bottom: 2px solid #f5a622;
-  }
-  &__header--text {
-    font-family: 'IBM Plex Serif', serif;
-    font-style: italic;
-  }
+    opacity:0.95;
+    border-bottom: 2.5px solid #f5a622;
     .numbers__button {
       border: 1px solid #aa076b;
       height: 40px;
@@ -22,15 +18,42 @@
       border-radius: 2px;
       font-size: 1em;
       font-weight: 300;
+      font-family: 'Gentium Basic', serif;
       transition: border 0.5s ease-out;
+      @media screen and (max-width: 800px) {
+        padding: 5px;
+      }
       &:hover {
         background-color: #aa076b;
         color: #fff;
         cursor: pointer;
       }
-      &--text {
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      &-text {
         display: inline-block;
         margin-left: 7px;
       }
     }
+  }
+  &__header-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    opacity: 0.9;
+    color: #3b444b;
+    font-size: 1.5rem;
+    &--big {
+      font-size: 1.5rem;
+      display: inline-block;
+      transform: scale(1, 2);
+      &:nth-child(1) {
+        transform: scale(1, 2.5);
+      }
+    }
+    @media screen and (max-width: 540px) {
+      font-size: 1.2rem;
+    }
+  }
 }

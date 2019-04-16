@@ -1,34 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import DropDown from '../Dropdown';
+import MetaCard from '../MetaCard';
+import './index.scss';
 
-const Header = ({ meta, minMaxNumbers }) => (
+const Header = ({
+  totalCount, minMaxNumbers, batchID, batches, getNumbers,
+}) => (
   <div className="generator__button-group">
-    <button type="button" className="number__sort">Sort</button>
+    <div className="sort-batch">
+      <button type="button" className="number__sort">Sort</button>
+      <div type="button" className="number__batch">Batch</div>
+      <DropDown
+        defaultSelected={batchID}
+        dropDownItems={batches}
+        onClickItem={getNumbers}
+      />
+    </div>
     <div className="number__min-max">
-      <div className="number__max">
-        <span className="number__max--border">Total</span>
-        <span>{meta.totalCount}</span>
-      </div>
-      <div className="number__max">
-        <span className="number__max--border">Max</span>
-        <span data-testid="max-number">{minMaxNumbers.maxNumber}</span>
-      </div>
-      <div className="number__max">
-        <span>Min</span>
-        <span data-testid="min-number">{minMaxNumbers.minNumber}</span>
-      </div>
+      {
+      [
+        { cardName: 'Total', cardValue: totalCount },
+        { cardName: 'Max', cardValue: minMaxNumbers.maxNumber },
+        { cardName: 'Min', cardValue: minMaxNumbers.minNumber },
+      ]
+        .map(({ cardName, cardValue }) => (
+          <MetaCard
+            cardName={cardName}
+            cardValue={cardValue}
+            key={cardValue}
+          />))
+    }
     </div>
   </div>
 );
 
 Header.propTypes = {
   minMaxNumbers: PropTypes.shape({
-    maxNumber: PropTypes.number.isRequired,
-    minNumber: PropTypes.number.isRequired,
+    maxNumber: PropTypes.string.isRequired,
+    minNumber: PropTypes.string.isRequired,
   }).isRequired,
-  meta: PropTypes.shape({
-    totalCount: PropTypes.number.isRequired,
-  }).isRequired,
+  totalCount: PropTypes.number.isRequired,
+  batchID: PropTypes.string.isRequired,
+  batches: PropTypes.arrayOf(PropTypes.string).isRequired,
+  getNumbers: PropTypes.func.isRequired,
 };
 
 export default Header;

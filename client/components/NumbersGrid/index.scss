@@ -1,8 +1,8 @@
 .numbers {
   &__grid {
     display: grid;
-    grid-template-columns: repeat(10, auto);
-    grid-gap: 15px 3px;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-gap: 14px 5px;
     justify-items: center;
     align-content: start;
     justify-content: stretch;
@@ -10,6 +10,9 @@
     padding: 20px 15px;
     border: 1px solid #f5a622;
     border-radius: 5px;
+    @media screen and (max-width: 540px) {
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
     &-item {
       &--text {
         background-color: white;

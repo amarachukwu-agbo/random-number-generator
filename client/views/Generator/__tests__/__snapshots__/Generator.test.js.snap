@@ -5,13 +5,38 @@ exports[`Number Generator it renders correctly 1`] = `
   class="navbar__container"
 >
   <h2
-    class="navbar__header--text"
+    class="navbar__header-text"
   >
-    Phone Number Generator
+    <span
+      class="navbar__header-text--big"
+    >
+      P
+    </span>
+    <span>
+      hone 
+    </span>
+    <span
+      class="navbar__header-text--big"
+    >
+      N
+    </span>
+    <span>
+      umber 
+    </span>
+    <span
+      class="navbar__header-text--big"
+    >
+      G
+    </span>
+    <span>
+      enerator
+    </span>
   </h2>
   <button
     class="numbers__button"
-    type="button"
+    data-testid="generate-button"
+    disabled=""
+    type="submit"
   >
     <span
       class="numbers__button--text"

@@ -2,17 +2,17 @@ import axios from 'axios';
 
 const baseURL = 'http://localhost:3000/api/v1';
 
-export const getPhoneNumbers = async (page) => {
-  const { data } = await axios.get(`${baseURL}/numbers?page=${page}`);
+export const getPhoneNumbers = async ({ batch, page }) => {
+  const { data } = await axios.get(`${baseURL}/numbers/${batch}?page=${page}`);
   return data;
 };
 
-// export const generatePhoneNumbers = async () => {
-//   const numbers = await axios.post(`${baseURL}/numbers`);
-//   return numbers;
-// };
+export const generatePhoneNumbers = async () => {
+  const { data } = await axios.post(`${baseURL}/numbers`);
+  return data;
+};
 
-export const getMinMaxNumbers = async () => {
-  const { data } = await axios.get(`${baseURL}/numbers/minMax`);
+export const getNumberBatches = async () => {
+  const { data } = await axios.get(`${baseURL}/batches`);
   return data;
 };

@@ -22,24 +22,25 @@ class Utils {
     };
   }
 
-  static async getSavedPhoneNumbers() {
-    const pathName = Utils.getFileStoragePath();
-    const savedNumbers = await fs.readFile(pathName, 'utf-8');
-    return (JSON.parse(savedNumbers));
+  static async getSavedPhoneNumbers(timeStamp) {
+    const filePathName = Utils.getFileStoragePath(timeStamp);
+    const savedNumbers = await fs.readFile(filePathName, 'utf-8');
+    return savedNumbers.split(',');
   }
 
-  // Get path for file storage: for test or development
-  static getFileStoragePath() {
-    const fileStoragePath = process.env.FILE_STORAGE_PATH;
+  // Get path for file storage path
+  static getFileStoragePath(timeStamp) {
+    const fileStoragePath = `./db/numbers-${timeStamp}.txt`;
     const pathName = path.resolve(__dirname, fileStoragePath);
     return pathName;
   }
 
   static sortRecord(record, ascending = true) {
-    if (ascending) {
-      return record.sort((firstNum, secondNum) => firstNum - secondNum);
+    const result = record.sort((firstNum, secondNum) => firstNum - secondNum);
+    if (!ascending) {
+      result.reverse();
     }
-    return record.sort((firstNum, secondNum) => secondNum - firstNum);
+    return result;
   }
 }
 

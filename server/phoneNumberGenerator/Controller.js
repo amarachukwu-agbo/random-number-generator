@@ -1,58 +1,73 @@
 import { promises as fs } from 'fs';
+import path from 'path';
 import Utils from '../Utils';
 
 class Controller {
   static async generatePhoneNumbers(req, res) {
     try {
-      // Get existing phone numbers from file storage
-      const savedNumbers = await Utils.getSavedPhoneNumbers();
-
-      const generatedNumbers = Controller.generateTenDigitNumbers(1000);
-
-      // Add generated numbers to top of file
-      savedNumbers.unshift(...generatedNumbers);
+      const numbers = new Set();
+      const generatedNumbers = Controller.generateTenDigitNumbers(1000, numbers);
+      const timeStamp = Date.now();
+      const filePath = Utils.getFileStoragePath(timeStamp);
 
       // Save unique phone numbers to file storage
-      const pathName = Utils.getFileStoragePath();
-      await fs.writeFile(pathName, JSON.stringify([...new Set(savedNumbers)]));
+      await fs.writeFile(filePath, generatedNumbers);
+
+      const { paginatedRecord, meta } = Utils
+        .paginateRecords(generatedNumbers);
 
       return res.status(201)
         .json({
           message: 'New phone numbers successfully generated',
-          generatedNumbers,
+          generatedNumbers: paginatedRecord,
+          batchID: timeStamp,
+          minMaxPhoneNumbers: {
+            maxNumber: generatedNumbers[generatedNumbers.length - 1],
+            minNumber: generatedNumbers[0],
+          },
+          meta,
         });
     } catch (error) { // istanbul ignore next
-      return res.status(500).json({ error });
+      return res.status(500).json({ error: error.toString() });
     }
   }
 
   // Generate random 10 digit numbers
-  static generateTenDigitNumbers(i, n = 0, randomNumbers = []) {
-    if (i === 0) return randomNumbers;
+  static generateTenDigitNumbers(i, randomNumbers, n = 0) {
+    if (n === 1000) return Utils.sortRecord([...randomNumbers]);
     const newNumber = Math.floor((Math.random() * 900000000) + 100000000);
     const zeroPrefixNumber = `0${newNumber}`;
-    randomNumbers.push(zeroPrefixNumber);
-    return Controller.generateTenDigitNumbers(i - 1, n + 1, randomNumbers);
+    randomNumbers.add(zeroPrefixNumber);
+    return Controller.generateTenDigitNumbers(i - 1, randomNumbers, n + 1);
   }
 
   static async getPhoneNumbers(req, res) {
     try {
-      let savedNumbers = await Utils.getSavedPhoneNumbers();
-      const { page, limit, sort } = req.query;
-
-      if (sort === 'ASC') { // Sort phone numbers ascending order
-        savedNumbers = Utils.sortRecord(savedNumbers);
+      let { batchID } = req.params;
+      const allBatches = await Controller.getBatches();
+      if (!allBatches.length) {
+        return res.status(404).json({ error: 'No numbers have been generated' });
       }
+      if (!batchID || batchID === 'undefined') [batchID] = allBatches;
+      const { page, limit, sort } = req.query;
+      let savedNumbers = await Utils.getSavedPhoneNumbers(batchID);
+
       if (sort === 'DESC') { // Sort phone numbers descending order
         savedNumbers = Utils.sortRecord(savedNumbers, false);
       }
 
       const { paginatedRecord, meta } = Utils
         .paginateRecords(savedNumbers, page, limit);
+
       return res.status(200)
         .json({
           message: 'Phone numbers successfully retrieved',
           phoneNumbers: paginatedRecord,
+          minMaxPhoneNumbers: {
+            maxNumber: savedNumbers[savedNumbers.length - 1],
+            minNumber: savedNumbers[0],
+          },
+          batchID,
           meta,
         });
     } catch (error) { // istanbul ignore next
@@ -60,34 +75,19 @@ class Controller {
     }
   }
 
-  static async getMinMaxNumber(req, res) {
-    try {
-      const savedPhoneNumbers = await Utils.getSavedPhoneNumbers();
-      if (!savedPhoneNumbers.length) {
-        return res.status(404).json({
-          error: 'No numbers have been generated',
-        });
-      }
-      const sortedPhoneNumbers = Utils.sortRecord(savedPhoneNumbers);
-
-      return res.status(200).json({
-        message: 'Min and max phone numbers successfully retrieved',
-        minMaxPhoneNumbers: {
-          minNumber: sortedPhoneNumbers[0],
-          maxNumber: sortedPhoneNumbers[sortedPhoneNumbers.length - 1],
-        },
-      });
-    } catch (error) { // istanbul  ignore next
-      return res.status(500).json({ error });
-    }
+  static async getBatches() {
+    const fileNames = await fs.readdir(path.resolve(__dirname, '../db'));
+    const extractID = name => (name.split('-')[1].replace(/\.txt/, ''));
+    const batchIDs = fileNames.map(extractID);
+    return batchIDs;
   }
 
-  static async deletePhoneNumbers(req, res) {
+  static async getBatchIDs(req, res) {
     try {
-      const pathName = Utils.getFileStoragePath();
-      await fs.writeFile(pathName, JSON.stringify([]));
+      const batchIDs = await Controller.getBatches();
       return res.status(200).json({
-        message: 'Phone Numbers deleted successfully',
+        message: 'Batch IDs retrieved successfully',
+        batchIDs,
       });
     } catch (error) { // istanbul  ignore next
       return res.status(500).json({ error });

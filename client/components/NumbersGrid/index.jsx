@@ -6,7 +6,7 @@ const NumbersGrid = ({ phoneNumbers }) => (
   <div className="numbers__grid">
     {
       phoneNumbers.length && phoneNumbers.map(number => (
-        <div key={`${number}`}>
+        <div key={`${number}`} className="numbers__grid-item">
           <span className="numbers__grid-item--text">{number}</span>
         </div>
       ))
@@ -16,6 +16,6 @@ const NumbersGrid = ({ phoneNumbers }) => (
 
 NumbersGrid.propTypes = {
   phoneNumbers: PropTypes.arrayOf(PropTypes.string).isRequired,
-}
+};
 
 export default NumbersGrid;

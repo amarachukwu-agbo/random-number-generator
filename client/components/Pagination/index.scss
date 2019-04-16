@@ -1,3 +1,5 @@
+$fontFamily: 'Gentium Basic', serif;
+
 .pagination {
   min-width: 100%;
   display: flex;
@@ -5,7 +7,8 @@
   align-items: center;
   margin-top: 30px;
   &__button {
-    width: 80px;
+    min-width: 80px;
+    font-family: $fontFamily;
     border: 1px solid #f5a622;
     background-color: transparent;
     padding: 7px;
@@ -21,6 +24,9 @@
     &:hover {
       cursor: pointer;
       opacity: 1;
+    }
+    &:disabled {
+      cursor: not-allowed;
     }
   }
   .current-page {
