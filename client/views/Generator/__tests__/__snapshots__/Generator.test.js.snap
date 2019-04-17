@@ -39,7 +39,7 @@ exports[`Number Generator it renders correctly 1`] = `
     type="submit"
   >
     <span
-      class="numbers__button--text"
+      class="generate-text"
     >
       Generate
     </span>

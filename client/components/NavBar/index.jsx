@@ -21,7 +21,7 @@ const NavBar = ({ generateNumbers, loading }) => (
       disabled={loading}
     >
       <FontAwesomeIcon icon="cog" spin={loading} />
-      <span className="numbers__button--text">Generate</span>
+      <span className="generate-text">Generate</span>
     </button>
   </div>
 );
