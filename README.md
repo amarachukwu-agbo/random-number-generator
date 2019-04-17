@@ -7,7 +7,7 @@ A simple web application that generates phone numbers for a telephone company. G
 
 ## Hosting
 * The API is hosted on https://amara-random-number-generator.herokuapp.com/api/v1/
-* The Application is hosted on hhttps://amara-random-number-generator.herokuapp.com/
+* The Application is hosted on https://amara-random-number-generator.herokuapp.com/
 
 ## Technologies used
 * [JavaScript](https://www.javascript.com/) - A programming language for the web
