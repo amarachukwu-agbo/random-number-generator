@@ -21,10 +21,11 @@ const Generator = () => {
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [minMaxNumbers, setMinMaxNumbers] = useState({});
   const [meta, setMeta] = useState({});
-  const [batchID, setBatchID] = useState('');
+  const [batchID, setBatchID] = useState();
   const [batches, setBatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [sortOrder, setSortOrder] = useState('ASC');
 
   const updateStateData = (numbers, metaData, currentBatch, minMax) => {
     setPhoneNumbers(numbers);
@@ -34,11 +35,11 @@ const Generator = () => {
     setBatchID(currentBatch);
     setMinMaxNumbers(minMax);
   };
-  const getBatchPhoneNumbers = async (page = 1, batch = batchID) => {
+  const getBatchPhoneNumbers = async (page = 1, order = sortOrder, batch = batchID) => {
     try {
       const {
         phoneNumbers: numbers, meta: metaData, minMaxPhoneNumbers, batchID: currentBatch,
-      } = await getPhoneNumbers({ batch, page });
+      } = await getPhoneNumbers({ batch, page, order });
       updateStateData(numbers, metaData, currentBatch, minMaxPhoneNumbers);
     } catch (err) {
       setError(err.toString());
@@ -49,7 +50,7 @@ const Generator = () => {
 
   const getBatchNumbers = async (batch) => {
     setBatchID(batch);
-    getBatchPhoneNumbers(1, batch);
+    getBatchPhoneNumbers(1, sortOrder, batch);
   };
 
   const generateNumbers = async () => {
@@ -74,6 +75,11 @@ const Generator = () => {
     } catch (err) {
       toastr.error(err);
     }
+  };
+
+  const setOrder = (order) => {
+    setSortOrder(order);
+    getBatchPhoneNumbers(1, order);
   };
 
   useEffect(() => {
@@ -102,6 +108,8 @@ const Generator = () => {
           batchID={batchID}
           batches={batches}
           getNumbers={getBatchNumbers}
+          setOrder={setOrder}
+          sortOrder={sortOrder}
         />
         <NumbersGrid phoneNumbers={phoneNumbers} />
         <Pagination metaData={meta} changePage={getBatchPhoneNumbers} />

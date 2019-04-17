@@ -69,7 +69,7 @@ describe('Number Generator', () => {
     const nextButton = await waitForElement(() => getByText('Next'));
     fireEvent.click(nextButton);
     expect(axiosMock.get).toHaveBeenCalledTimes(3);
-    expect(axiosMock.get).toHaveBeenCalledWith('http://localhost:3000/api/v1/numbers/undefined?page=3');
+    expect(axiosMock.get).toHaveBeenCalledWith('http://localhost:3000/api/v1/numbers/undefined?page=3&sort=ASC');
   });
 
   test('it fetches the previous page of numbers when the previous button is clicked', async () => {
@@ -77,7 +77,7 @@ describe('Number Generator', () => {
     const prevButton = await waitForElement(() => getByText('Previous'));
     fireEvent.click(prevButton);
     expect(axiosMock.get).toHaveBeenCalledTimes(3);
-    expect(axiosMock.get).toHaveBeenCalledWith('http://localhost:3000/api/v1/numbers/undefined?page=1');
+    expect(axiosMock.get).toHaveBeenCalledWith('http://localhost:3000/api/v1/numbers/undefined?page=1&sort=ASC');
   });
 
   test('it fetches the min and max numbers', async () => {
@@ -96,18 +96,33 @@ describe('Number Generator', () => {
     const dropdownItem = await waitForElement(() => getByTestId('dropdown-item-1'));
     fireEvent.click(dropdownItem);
     expect(axiosMock.get).toHaveBeenCalledTimes(3);
-    expect(axiosMock.get).toHaveBeenCalledWith('http://localhost:3000/api/v1/numbers/16743?page=1');
+    expect(axiosMock.get).toHaveBeenCalledWith('http://localhost:3000/api/v1/numbers/16743?page=1&sort=ASC');
   });
 
   test('it generates new numbers when the `generate` button is clicked', async () => {
-    axiosMock.post.mockImplementation(() => {
-      Promise.resolve({ data: mockGeneratedNubers });
-    });
     const { getByText } = render(<Generator />);
     const generateButton = await waitForElement(() => getByText('Generate'));
     fireEvent.click(generateButton);
     expect(axiosMock.post).toHaveBeenCalledTimes(1);
     expect(axiosMock.post).toHaveBeenCalledWith('http://localhost:3000/api/v1/numbers');
+  });
+
+  test('it sort numbers in descending order when down sort button', async () => {
+    const { getByTestId } = render(<Generator />);
+    const sortDownButton = await waitForElement(() => getByTestId('down-button'));
+    fireEvent.click(sortDownButton);
+    expect(sortDownButton).toHaveClass('active');
+    expect(axiosMock.get).toHaveBeenCalledTimes(3);
+    expect(axiosMock.get).toHaveBeenCalledWith('http://localhost:3000/api/v1/numbers/undefined?page=1&sort=DESC');
+  });
+
+  test('it sort numbers in descending order when up sort button', async () => {
+    const { getByTestId } = render(<Generator />);
+    const sortUpButton = await waitForElement(() => getByTestId('up-button'));
+    fireEvent.click(sortUpButton);
+    expect(sortUpButton).toHaveClass('active');
+    expect(axiosMock.get).toHaveBeenCalledTimes(3);
+    expect(axiosMock.get).toHaveBeenCalledWith('http://localhost:3000/api/v1/numbers/undefined?page=1&sort=ASC');
   });
 
   test('it sets error when there is an error fetching numbers', async () => {

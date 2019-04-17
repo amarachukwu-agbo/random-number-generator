@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const baseURL = 'http://localhost:3000/api/v1';
 
-export const getPhoneNumbers = async ({ batch, page }) => {
-  const { data } = await axios.get(`${baseURL}/numbers/${batch}?page=${page}`);
+export const getPhoneNumbers = async ({ batch, page, order }) => {
+  const { data } = await axios.get(`${baseURL}/numbers/${batch}?page=${page}&sort=${order}`);
   return data;
 };
 
