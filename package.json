@@ -11,7 +11,7 @@
     "client:start-dev": "parcel ./client/index.html",
     "client:build": "parcel build ./client/index.html",
     "lint": "eslint --ext .jsx,.js server/ client/",
-    "heroku:postbuild": "yarn run server:build && yarn run client:build"
+    "heroku-postbuild": "yarn run server:build && yarn run client:build"
   },
   "repository": {
     "type": "git",
