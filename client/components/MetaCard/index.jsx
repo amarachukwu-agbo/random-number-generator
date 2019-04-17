@@ -14,7 +14,7 @@ const MetaCard = ({ cardName, cardValue }) => (
 
 MetaCard.propTypes = {
   cardName: PropTypes.string.isRequired,
-  cardValue: PropTypes.string.isRequired,
+  cardValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 };
 
 export default MetaCard;

@@ -29,14 +29,27 @@
   }
   &__sort {
     padding: 5px;
-    width: 80px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
     background-color: #fff;
     border: 1px solid #F5a622;
     border-radius: 2px;
     &:hover {
       cursor: pointer;
-      background-color: #aa076b;
-      color: #fff;
+    }
+    &-text {
+      padding: 0 10px 0 4px;
+      height: 140%;
+      display: flex;
+      align-items: center;
+      border-right: 1px solid #4f4f4f;
+    }
+    &-order {
+      border: 0;
+      padding: 5px;
+      font-size: 16px;
+      color: #4f4f4f;
     }
   }
   &__batch {
@@ -56,4 +69,8 @@
 .sort-batch {
   display: flex;
   margin-top: 10px;
+}
+
+.active {
+  color: #3359DB;
 }
